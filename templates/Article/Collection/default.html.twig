@@ -23,6 +23,7 @@
                         </div>
                     </div>
                     <div class="col-xl-10 col-lg-9 col-xl-80per">
+                        {% include '/Article/Collection/_breadcrumb.html.twig' %}
                         {% if app.request.get('sword') %}
                             <div class="heading-part">
                                 <h3 class="sub-heading">Ihre Suchergebnisse nach "{{ app.request.get('sword') }}"</h3>

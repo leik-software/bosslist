@@ -1,0 +1,36 @@
+{# @var urlBanner \Shop\Article\Model\UrlBannerModel #}
+{% set urlBanner = findUrlBanner() %}
+<div class="banner-main mb-60">
+    {% if urlBanner.breadcrumb %}
+        <div class="row">
+            {% if urlBanner.headline %}
+                <div class="col-12 col-lg-6">
+                    <h3>{{ urlBanner.headline|raw }}</h3>
+                </div>
+            {% endif %}
+            {% if urlBanner.breadcrumb %}
+                <div class="bread-crumb col-12 col-lg-6 text-right">
+                    <ul>
+                        {% for breadcrumb in urlBanner.breadcrumb %}
+                            {% if loop.first %}
+                                <li><a href="{{ url('articles-by-category', { slug:'ebooks' }) }}">Startseite</a>/</li>
+                            {% elseif not loop.last %}
+                                <li><a href="{{ url('articles-by-category', { slug:breadcrumb.slug }) }}">{{ breadcrumb.title }}</a>/</li>
+                            {% else %}
+                                <li><span>{{ breadcrumb.title }}</span></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    {% elseif urlBanner.headline %}
+        <h3>{{ urlBanner.headline|raw }}</h3>
+    {% endif %}
+    <div class="blog-media mb-30 banner-main">
+        <img src="{{ urlBanner.desktopUrl }}" alt="{{ urlBanner.headline }}">
+    </div>
+    {% if urlBanner.description %}
+        {{ urlBanner.description|raw }}
+    {% endif %}
+</div>
