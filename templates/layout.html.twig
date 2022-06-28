@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>{% block pagetitle %}Finde dein nächstes Lieblingsbuch! | Komfortshop{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    {% block meta_description %}
+        <meta name="description" content="Hier finden Sie im Handumdrehen Ihr nächstes Lieblingsbuch!"/>
+    {% endblock %}
+    {% block meta_add %}{% endblock %}
+    {% block meta_keywords %}
+        <meta name="keywords" content="eBooks eBook-Empfehlungen"/>
+    {% endblock %}
+
+    <meta name="distribution" content="global"/>
+    <meta name="revisit-after" content="90 Days"/>
+    {% block meta_robots %}
+        <meta name="robots" content="index, follow">
+    {% endblock %}
+    <meta name="Language" content="de-de"/>
+    <meta http-equiv="content-language" content="de-de"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="alternate" href="{{ app.request.schemeAndHttpHost }}{{ app.request.pathInfo }}" hreflang="de-DE" />
+    {% block styles %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/font-awesome.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/bootstrap.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/mdb.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/jquery-ui.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/owl.carousel.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/fotorama.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/magnific-popup.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/progressive-image.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/komfortshop.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/responsive.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('shop/css/readmore.min.css') }}">
+    {% endblock %}
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('shop/images/favicon/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('shop/images/favicon/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('shop/images/favicon/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('shop/images/favicon/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('shop/images/favicon/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('shop/images/favicon/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('shop/images/favicon/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('shop/images/favicon/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('shop/images/favicon/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('shop/images/favicon/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('shop/images/favicon/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('shop/images/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('shop/images/favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('shop/images/favicon/favicon-16x16.png') }}">
+    {# <link rel="manifest" href="{{ asset('shop/images/favicon/manifest.json') }}"> #}
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('shop/images/favicon/ms-icon-144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+    <div class="main">
+
+        {% include '/_header.html.twig' %}
+        {% include '/_messages.html.twig' %}
+        {% block content %}hier inhalt{% endblock %}
+        {% include '/_footer.html.twig' %}
+        <div class="modal fade" role="dialog" style="display: none" id="ajax-modals" data-keyboard="false" data-backdrop="static">
+            <style>
+                .datepicker{z-index:1151 !important;}
+            </style>
+            <div class="modal-dialog">
+                <img src="{{ asset('shop/images/spinner-middle.gif') }}" alt="spinner" id="ajax-loader" class="hidden" style="margin: 20px auto; display: block;"/>
+                <div class="modal-content">
+
+
+                </div>
+            </div>
+        </div>
+        <!--googleoff: index-->
+        <div class="modal fade" role="dialog" style="display: none" id="modal-error" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <section class="checkout-section ptb-70">
+                        <div class="container">
+                            <div class="alert alert-block alert-danger">
+                                <h4 class="alert-heading">Fehler!</h4>
+                                <p>Leider ist ein Fehler aufgetreten. Die Administration ist bereits benachrichtigt.</p>
+                                <br>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!--googleon: index-->
+        <div class="scroll-top">
+            <div class="scrollup"></div>
+        </div>
+    </div>
+    {% block javascript %}
+        <script type="text/javascript" src="{{ asset('shop/js/jquery-1.12.3.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/tether-1.4.0.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/jquery-ui.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/fotorama.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/jquery.magnific-popup.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/owl.carousel.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/bootstrap-cookie-consent-settings.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/komfortshop.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/progressive-image.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('shop/js/readmore.min.js') }}"></script>
+
+    {% endblock %}
+</body>
+</html>

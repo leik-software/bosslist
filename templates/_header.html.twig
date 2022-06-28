@@ -1,0 +1,80 @@
+<header class="navbar navbar-custom container-full-sm" id="header">
+    <div class="header-middle">
+        <div class="container">
+            <hr>
+            <div class="row">
+                <div class="col-xl-3 col-md-3 col-xl-20per">
+                    <div class="header-middle-left">
+                        <div class="navbar-header float-none-sm">
+                            <a class="navbar-brand page-scroll" href="/">
+                                <img alt="Komfortshop" src="https://komfortshop.s3.eu-central-1.amazonaws.com/banner/logo.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-md-6 col-xl-60per">
+                </div>
+                <div class="col-xl-3 col-md-3 col-xl-20per">
+                    <div class="right-side float-left-xs header-right-link">
+                        <ul>
+                            {#
+                            <li class="wishlist-icon">
+                                <a href="wishlist.html">
+                                    <span></span>
+                                </a>
+                            </li>
+                            #}
+                            <li class="cart-icon">
+
+                            </li>
+                            <li class="side-toggle">
+                                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"><i class="fa fa-bars"></i></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="suggestbox clearfix" style="display: none">
+                    <div class="container-fluid">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom">
+        <div class="container">
+            <div class="row position-r">
+                <div class="col-xl-2 col-lg-3 col-xl-20per position-s">
+                    <div class="sidebar-menu-dropdown home">
+                        <a class="btn-sidebar-menu-dropdown"><span></span> eBooks </a>
+                        <div id="cat" class="cat-dropdown" style="display: none;">
+                            <div class="sidebar-content">
+                                <div id="menu" class="navbar-collapse collapse" >
+                                    {% include 'Static/_category_tree_generated.html.twig' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-xl-60per">
+                    <div class="bottom-inner">
+                        <div class="position-r">
+                            <div class="nav_sec position-r">
+                                <div class="mobilemenu-title mobilemenu">
+                                    <span>Menu</span>
+                                    <i class="fa fa-bars pull-right"></i>
+                                </div>
+                                <div class="mobilemenu-content">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</header>

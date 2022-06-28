@@ -1,0 +1,12 @@
+<div class="sidebar-box listing-box mb-40 mb-xs-15"> <span class="opener plus"></span>
+    <div class="sidebar-title">
+        <h3>Kategorien</h3>
+    </div>
+    <div class="sidebar-content">
+        <ul>
+            {% for cat in categories %}
+                <li><a rel="nofollow" href="{{ url('articles-by-category', {slug:cat.slug}) }}">{{ cat.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

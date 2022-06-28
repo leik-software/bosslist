@@ -1,0 +1,34 @@
+{% for flashMessage in app.session.flashbag.get('notice') %}
+<section class="checkout-section " style="margin-top: 12px">
+    <div class="container">
+        <div class="alert alert-block alert-success">
+            <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> {{ (flashMessage)|trans }}</h4>
+            <p>
+            </p>
+        </div>
+    </div>
+</section>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('error') %}
+<section class="checkout-section" style="margin-top: 12px">
+    <div class="container">
+        <div class="alert alert-block alert-danger">
+            <h4 class="alert-heading">Fehler!</h4>
+            <p>
+                {{ flashMessage }}
+            </p>
+            <p>Die Administration ist über den Fehler informiert wurden und wird sich ggf. bei Ihnen melden!</p>
+            <br>
+        </div>
+    </div>
+</section>
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('warning') %}
+<section class="checkout-section" style="margin-top: 12px">
+    <div class="container">
+        <div class="alert alert-block alert-warning">
+            <p>{{ flashMessage }}</p>
+        </div>
+    </div>
+</section>
+{% endfor %}

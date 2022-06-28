@@ -1,0 +1,162 @@
+{% extends '/layout.html.twig' %}
+{% set slugrow = app.request.attributes.get('slug-row') %}
+{% block pagetitle %}
+    {% if slugrow is defined and slugrow is not null %}
+        {{ slugrow.label }} | Komfortshop
+    {% elseif app.request.query.has('sword') %}
+        Suchen im Komfortshop
+    {% else %}
+        Komfortshop
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if articleCollection.articles|length %}
+        <section class="ptb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-3 mb-sm-30 col-xl-20per">
+                        <div class="sidebar-block">
+                            {{ getSubCategories()|raw }}
+
+
+                        </div>
+                    </div>
+                    <div class="col-xl-10 col-lg-9 col-xl-80per">
+                        {% if app.request.get('sword') %}
+                            <div class="heading-part">
+                                <h3 class="sub-heading">Ihre Suchergebnisse nach "{{ app.request.get('sword') }}"</h3>
+                            </div>
+                        {% endif %}
+                        <div class="product-listing">
+                            <div class="inner-listing">
+                                {# @var articleCollection \Shop\Article\Collection\Model\ArticleCollectionModel #}
+                                {# @var article \Shop\Article\Collection\Model\ArticleModel #}
+                                <div class="row article-container">
+                                    {% for article in articleCollection.articles %}
+                                        <div class="col-md-4 col-6 item-width mb-30 article-item">
+                                            <div class="product-item">
+                                                <div class="product-image">
+                                                    <a href="#" data-href="{{ articleThumb(article) }}" class="progressive replace" title="Zum Artikel"> <img class="preview" src="{{ blurHashImage(article, 'image_thumb') }}" alt="{{ article.title }}"></a>
+                                                </div>
+                                                <div class="product-item-details">
+                                                    <div class="product-item-name author"> <a href="#" title="Zum Artikel">{{ article.authorString }}</a> </div>
+                                                    <div class="product-item-name"> <a href="#" title="Zum Artikel">{{ article.title }}</a> </div>
+                                                    <div class="price-box">
+                                                        <span class="price">{{ article.priceModel.priceFormatted }}</span>
+                                                        {% if article.priceModel.strikedPrice %}
+                                                            <small>bisher</small> <del class="price old-price">{{ article.priceModel.strikedPriceFormatted}}</del> *
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="col col-12 no-more text-center" style="display: none">Alle Artikel wurden geladen</div>
+                                    <div class="col col-12 text-center article-spinner">
+                                        <img src="{{ asset('shop/images/spinner-middle.gif') }}" alt="spinner"/>
+                                    </div>
+                                </div>
+                                {% set pagination = articleCollection.pagination %}
+                                {% if pagination.pages > 1 %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% set currentUrl = url(app.request.attributes.get('_route'), {slug:app.request.attributes.get('slug')}) %}
+                                            {% set currentQuery = getFilterQueryWithExcludedAggregation('p') %}
+                                            <div class="pagination-bar">
+                                                <ul class="pagination">
+                                                    {{ pagination.first('<li data-p="1" class="paginate_button previous start" id="dt_basic_previous"><a rel="nofollow" href="'~currentUrl~'?p={nr}&'~currentQuery~'" aria-controls="dt_basic" data-dt-idx="0" tabindex="0">&lt;&lt;</a></li>')|raw }}
+                                                    {{ pagination.previous('<li data-p="{nr}" class="paginate_button previous" id="dt_basic_previous"><a rel="nofollow" href="'~currentUrl~'?p={nr}&'~currentQuery~'" aria-controls="dt_basic" data-dt-idx="0" tabindex="0">&lt;</a></li>')|raw }}
+                                                    {{ pagination.numbers('<li data-p="{nr}" class="paginate_button "><a rel="nofollow" href="'~currentUrl~'?p={nr}&'~currentQuery~'" aria-controls="dt_basic" >{nr}</a></li>', '<li class="paginate_button active"><a href="#" aria-controls="dt_basic">{nr}</a></li>')|raw }}
+                                                    {{ pagination.next('<li data-p="{nr}" class="paginate_button next" id="dt_basic_next"><a rel="nofollow" class="next-item" href="'~currentUrl~'?p={nr}&'~currentQuery~'" aria-controls="dt_basic">&gt;</a></li>')|raw }}
+                                                    {{ pagination.last('<li data-p="{nr}" class="paginate_button next end" id="dt_basic_next"><a rel="nofollow" href="'~currentUrl~'?p={nr}&'~currentQuery~'" aria-controls="dt_basic">&gt;&gt;</a></li>')|raw }}
+                                                </ul>
+                                                {# <div class="hidden">{{ pagination.info('Angezeigt werden {start} bis {end} von {total} Artikeln auf {pages} Seiten') }}</div>#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <section class="ptb-70 gray-bg error-block-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="error-block-detail">
+                            <div class="row">
+                                <div class="col-xl-5 col-lg-6">
+                                    <img src="https://komfortshop.s3.eu-central-1.amazonaws.com/banner/leerseite_650x620.jpg" alt="Nicht gefunden"/>
+                                </div>
+                                <div class="col-xl-7 col-lg-6">
+                                    {% if app.request.query.has('sword') %}
+                                        <div class="error-small-text">Schade!</div>
+                                        <div class="error-slogan">Leider ergab Ihre Suche keine Treffer.</div>
+                                        <div class="error-slogan">Bitte verwenden Sie einen anderen Suchbegriff.</div>
+                                    {% else %}
+                                        <div class="error-small-text">Oh nein!</div>
+                                        <div class="error-slogan">Leider existiert diese Seite nicht (mehr).</div>
+                                    {% endif %}
+                                    <div class="mt-40"> <a href="{{ url('home') }}" class="btn btn-color">Zur Startseite</a> </div>
+                                    <div class="error-slogan mt-40"><b>Diese Listen könnten Sie interessieren</b></div>
+                                    <div class="mt-15"> <a href="{{ url('articles-by-article_list', {slug:'ausgezeichnete-fantasy'}) }}" class="btn btn-color">Ausgezeichnete Fantasy</a> </div>
+                                    <div class="mt-15"> <a href="{{ url('articles-by-article_list', {slug:'nobelpreis-fuer-literatur'}) }}" class="btn btn-color">Nobelpreis für Literatur</a> </div>
+                                    <div class="mt-15"> <a href="{{ url('articles-by-article_list', {slug:'lifestyle-fitness'}) }}" class="btn btn-color">Lifestyle & Fitness</a> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script src="https://unpkg.com/@webcreate/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function(){
+            let ias = new InfiniteAjaxScroll('.article-container', {
+              item: '.article-item',
+              next: '.next-item',
+              pagination: '.pagination',
+              logger: false,
+              spinner: {
+                element: '.article-spinner',
+                delay: 600,
+                show: function(element) {
+                  element.style.opacity = '1'; // default behaviour
+                },
+                hide: function(element) {
+                  element.style.opacity = '0'; // default behaviour
+                }
+              }
+            });
+            ias.on('last', function() {
+                if($('ul.pagination').length === 0){
+                    return;
+                }
+                $('.no-more').show();
+            });
+            ias.on('page', (event) => {
+
+                if($('ul.pagination').length === 0){
+                    return;
+                }
+                let state = history.state;
+                let urlParams = event.url.split('&');
+                let url = '';
+                if(urlParams[0].indexOf('?') !== -1){
+                    url = urlParams[0]+'&inf='+(new Date().getTime());
+                }else{
+                    url = urlParams[0]+'?inf='+(new Date().getTime());
+                }
+                history.replaceState(state, event.title, url);
+            });
+        });
+    </script>
+{% endblock %}

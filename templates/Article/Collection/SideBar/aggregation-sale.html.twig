@@ -1,0 +1,27 @@
+<div class="mb-20">
+    <div class="inner-title">Reduziert</div>
+    <ul>
+        {% if hasFree or freeActive %}
+            <li {% if freeActive %}class="active"{% endif %}>
+                {% if freeActive %}
+                    <a rel="nofollow" href="{{ url(app.request.attributes.get('_route'), {slug:app.request.attributes.get('slug')}) }}?{{ getFilterQueryWithExcludedAggregation('s') }}" title="Filter entfernen">
+                        <i class="fa fa-close"></i> Gratis ({{ freeDocCount }})
+                    </a>
+                {% else %}
+                    <a rel="nofollow" href="{{ url(app.request.attributes.get('_route'), {slug:app.request.attributes.get('slug')}) }}?{{ addAggregationToFilterQuery('s',"1") }}">Gratis ({{ freeDocCount }})</a>
+                {% endif %}
+            </li>
+        {% endif %}
+        {% if hasSale or saleActive %}
+            <li {% if saleActive %}class="active"{% endif %}>
+                {% if saleActive %}
+                    <a rel="nofollow" href="{{ url(app.request.attributes.get('_route'), {slug:app.request.attributes.get('slug')}) }}?{{ getFilterQueryWithExcludedAggregation('s') }}" title="Filter entfernen">
+                        <i class="fa fa-close"></i> Reduziert ({{ saleDocCount }})
+                    </a>
+                {% else %}
+                    <a rel="nofollow" href="{{ url(app.request.attributes.get('_route'), {slug:app.request.attributes.get('slug')}) }}?{{ addAggregationToFilterQuery('s',"2") }}">Reduziert ({{ saleDocCount }})</a>
+                {% endif %}
+            </li>
+        {% endif %}
+    </ul>
+</div>

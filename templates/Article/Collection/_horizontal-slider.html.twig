@@ -1,0 +1,76 @@
+{# @var articleCollection \Shop\Article\Collection\Model\ArticleCollectionModel #}
+{# @var article \Shop\Article\Collection\Model\ArticleModel #}
+{% set id = random(1, 100000) %}
+<div class="owl-carousel pro-cat-slider-{{ id}} ">
+    {% for article in articleCollection.articles %}
+        <div class="item">
+            <div class="product-item">
+                <div class="product-image">
+                    <a href="{{ url('article-detail-slug', {slug:article.slug}) }}" title="Zum Artikel" >
+                        <img src="{{ articleThumb(article) }}" alt="{{ article.title }}">
+                    </a>
+                </div>
+                <div class="komfortscore">
+                    <a class="popup-with-form" href="#komfortscore-popup" title="Komfortscore">
+                        <img src="https://komfortshop.s3.eu-central-1.amazonaws.com/komfortscore/Komfortscore_{{ getCloudScoreNumber(article) }}-36x36.png" alt="Komfort-Score"/>
+                    </a>
+                </div>
+                <div class="product-item-details">
+                    <div class="product-item-name author"> <a href="{{ url('article-detail-slug', {slug:article.slug}) }}" title="Zum Artikel">{{ article.authorString }}</a> </div>
+                    <div class="product-item-name"> <a href="{{ url('article-detail-slug', {slug:article.slug}) }}" title="Zum Artikel">{{ article.title }}</a> </div>
+                    <div class="price-box">
+                        <span class="price">{{ article.priceModel.priceFormatted }}</span>
+                        {% if article.priceModel.strikedPrice %}
+                            <small>bisher</small> <del class="price old-price">{{ article.priceModel.strikedPriceFormatted}}</del> *
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<script type="application/javascript">
+    $(document).ready(function(){
+        $('.pro-cat-slider-{{ id }}').owlCarousel({
+            items: {{ articleCollection.articles|length < 5 ? articleCollection.articles|length : 5 }},
+            nav: true,
+            dots: false,
+            loop: {{ articleCollection.articles|length > 5 ? 'true' : 'false' }},
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:2,
+                },
+                768:{
+                    items:3,
+                },
+                992:{
+                    items:3,
+                },
+                1200:{
+                    items:3,
+                },
+                1770:{
+                    items:5,
+                }
+            }
+        });
+        $('.popup-with-form').magnificPopup({
+            type: 'inline',
+            preloader: false,
+            focus: '#name',
+
+            // When elemened is focused, some mobile browsers in some cases zoom in
+            // It looks not nice, so we disable it:
+            callbacks: {
+                beforeOpen: function() {
+                    if($(window).width() < 700) {
+                        this.st.focus = false;
+                    } else {
+                        this.st.focus = '#name';
+                    }
+                }
+            }
+        });
+    });
+</script>

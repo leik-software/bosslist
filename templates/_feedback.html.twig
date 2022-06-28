@@ -1,0 +1,38 @@
+<style>
+    .thumbs-image{
+        max-width: 64px;
+        cursor: pointer;
+    }
+</style>
+
+<section class="mt-30 feedback-section" style="border: 1px solid #e1e1e1;" data-path="{{ app.request.pathInfo }}">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <img alt="thumbs-couple" src="https://komfortshop.s3.eu-central-1.amazonaws.com/thumbs-couple.png"/>
+        </div>
+        <div class="col-12 col-lg-6 text-center thankyou" style="display: none; width: 100%">
+            <p>&nbsp;</p>
+            <h3>Vielen Dank!</h3>
+        </div>
+        <div class="col-12 col-lg-6 text-center main-form">
+            <p>&nbsp;</p>
+            <h3>Sagen Sie uns Ihre Meinung!</h3>
+            <label for="feedback">Wie gefällt Ihnen diese Empfehlungsseite?</label>
+            <p>&nbsp;</p>
+            <input style="max-width: 90%" type="text" placeholder="Ihr kurzes Feedback" name="feedback" id="feedback">
+            <p>&nbsp;</p>
+            <div class="row thumbs-row" style="padding: 10px">
+                <div class="col-4">
+                    <img class="thumbs-image" alt="thumbs-down" src="https://komfortshop.s3.eu-central-1.amazonaws.com/thumbs-down-200x200.png"/>
+                </div>
+                <div class="col-4">
+                    <img class="thumbs-image" alt="thumbs-middle" src="https://komfortshop.s3.eu-central-1.amazonaws.com/thumbs-middle-200x200.png"/>
+                </div>
+                <div class="col-4">
+                    <img class="thumbs-image" alt="thumbs-up" src="https://komfortshop.s3.eu-central-1.amazonaws.com/thumbs-up-200x200.png"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

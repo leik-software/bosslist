@@ -1,0 +1,14 @@
+{% set articles = articleCollection.notIndexedArticles %}
+{% for article in articleCollection.articles %}
+    <div class="col-4 mb-4">
+        <div class="item">
+            <div class="product-item">
+                <div class="product-image">
+                    <a href="{{ url('article-detail-slug', {slug:article.slug}) }}" title="Zum Artikel" >
+                        <img src="{{ articleThumb(article) }}" alt="{{ article.title }}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

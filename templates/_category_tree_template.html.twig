@@ -1,0 +1,41 @@
+<!-- {# generated at #}{{ "now"|date("Ymd His") }} -->
+<ul class="nav navbar-nav ">
+    {# @var cat \Shop\Article\Model\CategoryModel #}
+    {# @var subCat \Shop\Article\Model\CategoryModel #}
+    {# @var subSubCat \Shop\Article\Model\CategoryModel #}
+    {% for cat in categories %}
+        <li class="level {{ cat.subCategories ? 'sub-megamenu' : '' }}">
+            {% if cat.subCategories %}
+                <span class="opener plus"></span>
+            {% endif %}
+            <a href="{{ url('articles-by-category', {slug:cat.slug}) }}" class="page-scroll">{{ cat.title }}</a>
+            {% if cat.subCategories %}
+                <div class="megamenu mobile-sub-menu" style="width:{{ cat.columWidth }}px;">
+                    <div class="megamenu-inner-top">
+                        <ul class="sub-menu-level1">
+                            {% for subCat in cat.subCategories %}
+                                {% if subCat.subCategories %}
+                                    <li class="level2">
+                                        <a href="{{ url('articles-by-category', {slug:subCat.slug}) }}"><span>{{ subCat.title }}</span></a>
+                                        <ul class="sub-menu-level2 ">
+                                            {% for subSubCat in subCat.subCategories %}
+                                                <li class="level3"><a href="{{ url('articles-by-category', {slug:subSubCat.slug}) }}"><span>■</span>{{ subSubCat.title }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <ul class="sub-menu-level2 ">
+                                        <li class="level3"><a href="{{ url('articles-by-category', {slug:subCat.slug}) }}"><span>■</span>{{ subCat.title }}</a></li>
+                                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </li>
+    {% endfor %}
+    <li class="level">
+        <a href="{{ url('article-list-group-index') }}" class="page-scroll">Was soll ich lesen?</a>
+    </li>
+</ul>

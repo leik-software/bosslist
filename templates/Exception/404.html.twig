@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+    <section class="ptb-70 gray-bg error-block-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="error-block-detail">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-xl-5 col-lg-6">
+                                    <img src="https://komfortshop.s3.eu-central-1.amazonaws.com/banner/leerseite_650x620.jpg" alt="Nicht gefunden"/>
+                                </div>
+                                <div class="col-xl-7 col-lg-6">
+                                    <div class="error-small-text">Oh nein!</div>
+                                    <div class="error-slogan">Ein Fehler ist aufgetreten: {{ errorMessage }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

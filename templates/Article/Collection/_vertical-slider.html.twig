@@ -1,0 +1,58 @@
+{# @var articleCollection \Shop\Article\Collection\Model\ArticleCollectionModel #}
+{# @var article \Shop\Article\Collection\Model\ArticleModel #}
+{% set id = random(1, 100000) %}
+{% set articles = articleCollection.notIndexedArticles %}
+{% set itemClosed = false %}
+<div id="sidebar-product-{{ id}}" class="owl-carousel">
+    {% for article in articles %}
+        {% if loop.index == 1 or itemClosed  %}
+            {% set itemClosed = false %}
+            <div class="item">
+                <ul>
+        {% endif %}
+        <li>
+            <div class="pro-media">
+                <a href="{{ url('article-detail-slug', {slug:article.slug}) }}" title="Zum Artikel"><img alt="{{ article.title }}" src="{{ articleThumb(article) }}"></a>
+
+            </div>
+            <div class="pro-detail-info">
+                {{ article.authorString }}
+                <a href="{{ url('article-detail-slug', {slug:article.slug}) }}" title="Zum Artikel">{{ article.title }}</a>
+                <div class="price-box">
+                    <span class="price">{{ article.priceModel.priceFormatted }}</span>
+                    {% if article.priceModel.strikedPrice %}
+                        <small>bisher</small> <del class="price old-price">{{ article.priceModel.strikedPriceFormatted}}</del> *
+                    {% endif %}
+                </div>
+                <div class="komfortscore">
+                    <a class="popup-with-form" href="#komfortscore-popup" title="Komfortscore">
+                        <img src="https://komfortshop.s3.eu-central-1.amazonaws.com/komfortscore/Komfortscore_{{ getCloudScoreNumber(article) }}-36x36.png" alt="Komfort-Score"/>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% if loop.last or loop.index is divisible by(3) %}
+            {% set itemClosed = true %}
+            </ul>
+        </div>
+        {% endif %}
+    {% endfor %}
+
+</div>
+<script type="application/javascript">
+    $(document).ready(function(){
+        $('#sidebar-product-{{ id}}').owlCarousel({
+            items: 1,
+            nav: true,
+            dots: false,
+            loop:true,
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:1,
+                }
+            }
+
+        });
+    });
+</script>

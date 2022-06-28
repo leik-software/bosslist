@@ -1,0 +1,27 @@
+{% extends '/layout.html.twig' %}
+{% block content %}
+    <section class="ptb-70 gray-bg error-block-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="error-block-detail">
+                        <div class="row">
+                            <div class="col-xl-5 col-lg-6">
+                                <img src="https://komfortshop.s3.eu-central-1.amazonaws.com/banner/fehlerseite-404-650x433.jpg"/>
+                            </div>
+                            <div class="col-xl-7 col-lg-6">
+                                <div class="error-small-text">Oh nein!</div>
+                                <div class="error-slogan">Leider ist ein Fehler aufgetreten.</div>
+                                <div class="error-slogan">Die Administration wird automatisch benachrichtigt. Wenn Sie weiterhin ein Problem haben, nehmen Sie gerne <a href="{{ url('contact-get') }}">Kontakt</a> auf.</div>
+                                <div class="error-slogan">Schauen Sie sich in der Zwischenzeit doch das an:</div>
+                                <div class="mt-15"> <a href="{{ url('articles-by-article_list', {slug:'empfehlungen-der-redaktion'}) }}" class="btn btn-color">Unsere Empfehlungen</a> </div>
+                                <div class="mt-15"> <a href="{{ url('articles-by-article_list', {slug:'beliebtesten-new-adult-romane-in-2021'}) }}" class="btn btn-color">New Adult Romane</a> </div>
+                                <div class="mt-15"> <a href="{{ url('home') }}" class="btn btn-color">Startseite</a> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
