@@ -32,7 +32,7 @@ final class ArticleCollectionController extends AbstractController
     {
         $articleCollection = $this->articleCollection->getCollection(
             new ArticleCollectionRequest(
-                abs($request->query->getInt('l', 20)),
+                abs($request->query->getInt('l', 100)),
                 abs($request->query->getInt('p', 1)),
                 $request->query->has('inf'),
                 $request->isXmlHttpRequest()
