@@ -35,7 +35,7 @@ class ArticleFormat extends BaseEntity
     public const PRINT_NONE = 'none';
     
     /**
-     * @ORM\ManyToOne(targetEntity="Article")
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="formats")
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      */
     protected Article $article;
@@ -126,7 +126,7 @@ class ArticleFormat extends BaseEntity
     /**
      * @ORM\Column(name="fsk", type="integer", nullable=true)
      */
-    protected int $fsk = 0;
+    protected ?int $fsk = 0;
 
     /**
      * 0 = Verkauf verboten, Download verboten

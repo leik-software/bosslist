@@ -40,9 +40,11 @@
                                                     <div class="product-item-name author"> <a href="#" title="Zum Artikel">{{ article.authorString }}</a> </div>
                                                     <div class="product-item-name"> <a href="#" title="Zum Artikel">{{ article.title }}</a> </div>
                                                     <div class="price-box">
-                                                        <span class="price">{{ article.price.priceFormatted }}</span>
-                                                        {% if article.price.strikedPrice %}
-                                                            <small>bisher</small> <del class="price old-price">{{ article.price.strikedPriceFormatted}}</del> *
+                                                        {% if article.price %}
+                                                            <span class="price">{{ article.price.priceFormatted }}</span>
+                                                            {% if article.price.strikedPrice %}
+                                                                <small>bisher</small> <del class="price old-price">{{ article.price.strikedPriceFormatted}}</del> *
+                                                            {% endif %}
                                                         {% endif %}
                                                     </div>
                                                 </div>
