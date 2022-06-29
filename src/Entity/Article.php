@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\BaseEntity;
 use App\Entity\TimestampableTrait;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Table(name="article",
@@ -15,6 +17,14 @@ use App\Entity\TimestampableTrait;
 class Article extends BaseEntity
 {
     use TimestampableTrait;
+
+    public function __construct(
+    )
+    {
+        $this->authors = new ArrayCollection();
+        $this->cloudFiles = new ArrayCollection();
+        $this->prices = new ArrayCollection();
+    }
 
     /**
      * @ORM\Column(name="slug", type="string", length=250)
@@ -37,8 +47,9 @@ class Article extends BaseEntity
      *      joinColumns={@ORM\JoinColumn(name="article_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="author_id", referencedColumnName="id")}
      *      )
+     * @var Author[]
      */
-    private iterable $authors;
+    private PersistentCollection $authors;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Publisher")
@@ -59,6 +70,17 @@ class Article extends BaseEntity
     private iterable $translators;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleFileCloud", mappedBy="article")
+     */
+    private PersistentCollection $cloudFiles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticlePrice", mappedBy="article")
+     * @ORM\OrderBy({"activeFrom" = "DESC"})
+     */
+    private PersistentCollection $prices;
+
+    /**
      * 0 = unbekannt (neuer Artikel)
      * 1 = hat ein Bild
      * 2 = hat kein Bild von ciando bekommen, VLB ist dran
@@ -72,5 +94,39 @@ class Article extends BaseEntity
      */
     private float $score = 0.0;
 
+    /**
+     * @return PersistentCollection|ArticleFileCloud[]
+     */
+    public function getCloudFiles(): PersistentCollection
+    {
+        return $this->cloudFiles;
+    }
+
+    public function getAuthorString(): string
+    {
+        if($this->authors->count() === 1){
+            return $this->authors->first()->getLabel();
+        }
+        if($this->authors->count() === 0){
+            return '';
+        }
+        return sprintf('%s und weitere',$this->authors->first()->getLabel());
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getPrice(): ArticlePrice
+    {
+        /** @var ArticlePrice $price */
+        foreach ($this->prices as $price){
+            if($price->getActiveFrom()->getTimestamp() <= (new \DateTimeImmutable())->getTimestamp()){
+                return $price;
+            }
+        }
+        throw new \RuntimeException('No price found!');
+    }
 
 }

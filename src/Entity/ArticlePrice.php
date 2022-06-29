@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
-use App\Entity\TimestampableTrait;
+use RtLopez\Decimal;
 
 /**
  * @ORM\Table(name="article_price", indexes={@ORM\Index(name="search_idx", columns={"article_id", "active_from", "price", "striked_price", "extern_id", "country_code", "currency"})})
@@ -15,7 +14,7 @@ class ArticlePrice extends BaseEntity
     use TimestampableTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Article")
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="prices")
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      */
     protected Article $article;
@@ -57,5 +56,41 @@ class ArticlePrice extends BaseEntity
      * @ORM\Column(name="currency", type="string", length=5, nullable=false)
      */
     protected string $currency = '';
+
+    public function getActiveFrom(): \DateTime
+    {
+        return $this->activeFrom;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function getStrikedPrice(): float
+    {
+        return $this->strikedPrice;
+    }
+
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    public function getPriceFormatted(): string
+    {
+        return sprintf('%s €', Decimal::create($this->price)->format(2,',','.'));
+    }
+
+    public function getStrikedPriceFormatted(): string
+    {
+        return $this->strikedPrice ? sprintf('%s €', Decimal::create($this->strikedPrice)->format(2,',','.')) : '';
+    }
+
+    public function hasStrikedPrice(): bool
+    {
+
+        return $this->strikedPrice > 0;
+    }
 
 }

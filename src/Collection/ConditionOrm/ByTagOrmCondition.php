@@ -1,18 +1,20 @@
 <?php
-
 declare(strict_types=1);
 
-namespace App\Collection\ConditionDBAL;
+namespace App\Collection\ConditionOrm;
 
+use App\Entity\Article2Tag;
+use App\Entity\Tag;
 use App\ShopRequest;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 
-final class ByTagsConditionDBAL implements ArticleConditionDBALInterface
+class ByTagOrmCondition implements ConditionOrmInterface
 {
-    public function __construct(
-        private readonly ShopRequest $shopRequest
-    ) {}
+    public function __construct(private readonly ShopRequest $shopRequest)
+    {
+    }
 
     public function addCondition(QueryBuilder $queryBuilder): void
     {
@@ -30,8 +32,8 @@ final class ByTagsConditionDBAL implements ArticleConditionDBALInterface
             return;
         }
         $queryBuilder
-            ->innerJoin('a', 'article2tag', 'article2tag', 'article2tag.article_id = a.id')
-            ->innerJoin('article2tag', 'tag', 'tag', 'tag.id = article2tag.tag_id AND tag.slug IN (:slugs)')
+            ->innerJoin(Article2Tag::class, 'article2tag', Join::WITH, 'article2tag.article = a')
+            ->innerJoin(Tag::class, 'tag',Join::WITH , 'tag = article2tag.tag AND tag.slug IN (:slugs)')
             ->setParameter('slugs', $tags, Connection::PARAM_STR_ARRAY)
         ;
     }

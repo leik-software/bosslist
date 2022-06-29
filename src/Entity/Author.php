@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
-use App\Entity\SlugTrait;
 
 /**
  * @ORM\Table(name="author", indexes={@ORM\Index(name="search_idx", columns={"slug"})})
@@ -23,4 +21,10 @@ class Author extends BaseEntity
      * @ORM\Column(name="biographical_note", type="text", nullable=false, options={"default":""})
      */
     protected string $biographicalNote = '';
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
 }

@@ -18,8 +18,6 @@
                     <div class="col-xl-2 col-lg-3 mb-sm-30 col-xl-20per">
                         <div class="sidebar-block">
                             {{ getSubCategories()|raw }}
-
-
                         </div>
                     </div>
                     <div class="col-xl-10 col-lg-9 col-xl-80per">
@@ -31,8 +29,6 @@
                         {% endif %}
                         <div class="product-listing">
                             <div class="inner-listing">
-                                {# @var articleCollection \Shop\Article\Collection\Model\ArticleCollectionModel #}
-                                {# @var article \Shop\Article\Collection\Model\ArticleModel #}
                                 <div class="row article-container">
                                     {% for article in articleCollection.articles %}
                                         <div class="col-md-4 col-6 item-width mb-30 article-item">
@@ -44,9 +40,9 @@
                                                     <div class="product-item-name author"> <a href="#" title="Zum Artikel">{{ article.authorString }}</a> </div>
                                                     <div class="product-item-name"> <a href="#" title="Zum Artikel">{{ article.title }}</a> </div>
                                                     <div class="price-box">
-                                                        <span class="price">{{ article.priceModel.priceFormatted }}</span>
-                                                        {% if article.priceModel.strikedPrice %}
-                                                            <small>bisher</small> <del class="price old-price">{{ article.priceModel.strikedPriceFormatted}}</del> *
+                                                        <span class="price">{{ article.price.priceFormatted }}</span>
+                                                        {% if article.price.strikedPrice %}
+                                                            <small>bisher</small> <del class="price old-price">{{ article.price.strikedPriceFormatted}}</del> *
                                                         {% endif %}
                                                     </div>
                                                 </div>

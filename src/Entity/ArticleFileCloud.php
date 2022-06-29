@@ -15,7 +15,7 @@ class ArticleFileCloud
 
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="Article")
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="cloudFiles")
      * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      */
     protected Article $article;
@@ -39,5 +39,26 @@ class ArticleFileCloud
      * @ORM\Column(name="blur_hash", type="string", length=255, options={"default":""})
      */
     private string $blurHash = '';
+
+    public function getAwsUrlDetail(): string
+    {
+        return $this->awsUrlDetail;
+    }
+
+    public function getAwsUrlThumb(): string
+    {
+        return $this->awsUrlThumb;
+    }
+
+    public function getAwsUrlIcon(): string
+    {
+        return $this->awsUrlIcon;
+    }
+
+    public function getBlurHash(): string
+    {
+        return $this->blurHash;
+    }
+
 
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\TwigExtension;
 
-use App\Collection\Model\HasCoverImageInterface;
+use App\Entity\Article;
+use App\Entity\ArticleFileCloud;
 use App\Helper\BlurHashHelper;
 use Assert\Assertion;
 use Twig\Extension\AbstractExtension;
@@ -31,38 +32,58 @@ final class ArticlePictureTwigExtension extends AbstractExtension
         ];
     }
 
-    public function articleThumb(HasCoverImageInterface $articleModel): string
+    public function articleThumb(Article $article): string
     {
-        return $articleModel->getThumbUrl() ?: $this->getBase64Nopic();
+        if(!$article->getCloudFiles()->count()){
+            return $this->getBase64Nopic();
+        }
+        foreach ($article->getCloudFiles() as $file){
+            return $file->getAwsUrlThumb();
+        }
+        return $this->getBase64Nopic();
     }
 
-    public function articleCover(HasCoverImageInterface $articleModel): string
+    public function articleCover(Article $article): string
     {
-        return $articleModel->getDetailUrl() ?: $this->getBase64Nopic();
+        if(!$article->getCloudFiles()->count()){
+            return $this->getBase64Nopic();
+        }
+        foreach ($article->getCloudFiles() as $file){
+            return $file->getAwsUrlDetail();
+        }
+        return $this->getBase64Nopic();
     }
 
-    public function articleIcon(HasCoverImageInterface $articleModel): string
+    public function articleIcon(Article $article): string
     {
-        return $articleModel->getIconUrl() ?: $this->getBase64Nopic();
+        if(!$article->getCloudFiles()->count()){
+            return $this->getBase64Nopic();
+        }
+        foreach ($article->getCloudFiles() as $file){
+            return $file->getAwsUrlIcon();
+        }
+        return $this->getBase64Nopic();
     }
 
-    public function blurHashImage(HasCoverImageInterface $articleModel, string $resolution): string
+    public function blurHashImage(Article $article, string $resolution): string
     {
         try {
-            $blurHash = $articleModel->getBlurHash();
+            /** @var ArticleFileCloud $file */
+            $file = $article->getCloudFiles()->first();
+            $blurHash = $file->getBlurHash();
             Assertion::notEmpty($blurHash);
             $resolutions = self::RESOLUTIONS;
             Assertion::keyExists($resolutions, $resolution);
             ob_start();
             BlurHashHelper::decodeHash(
-                $articleModel->getBlurHash(),
+                $blurHash,
                 20,
                 26
             );
             $stream = ob_get_clean();
 
             return sprintf('data:image/jpg;base64,%s', base64_encode($stream));
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return $this->getBase64Nopic();
         }
     }

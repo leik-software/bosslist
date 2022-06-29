@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\DependencyInjection;
 
-use App\Collection\ConditionDBAL\ArticleConditionDBALInterface;
-use App\Collection\ListDecoratorDBAL\ArticleListDecoratorInterface;
+use App\Collection\ConditionOrm\ConditionOrmInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class ShopServicesRegistration
@@ -19,12 +18,8 @@ final class ShopServicesRegistration
     private static function registerTags(ContainerBuilder $containerBuilder): void
     {
         $containerBuilder
-            ->registerForAutoconfiguration(ArticleListDecoratorInterface::class)
-            ->addTag(ArticleListDecoratorInterface::class)
-        ;
-        $containerBuilder
-            ->registerForAutoconfiguration(ArticleConditionDBALInterface::class)
-            ->addTag(ArticleConditionDBALInterface::class)
+            ->registerForAutoconfiguration(ConditionOrmInterface::class)
+            ->addTag(ConditionOrmInterface::class)
         ;
     }
 

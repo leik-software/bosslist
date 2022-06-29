@@ -15,12 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
  * @see \App\EventSubscriber\ArticleCollectionCheckEventSubsciber::onKernelController
  * @Route("/a/tag/{slug}", name="articles-by-tag")
  * @Route("/a/cat/{slug}", name="articles-by-category")
- * @Route("/a/series/{slug}", name="articles-by-article_series")
  * @Route("/a/publisher/{slug}", name="articles-by-publisher")
  * @Route("/a/author/{slug}", name="articles-by-author")
  * @Route("/a/article-list/{slug}", name="articles-by-article_list")
- * @Route("/a/article-classification/{slug}", name="articles-by-article_classification")
- * @Route("/a/search/{slug}", name="articles-by-search", defaults={"slug":""})
  */
 final class ArticleCollectionController extends AbstractController
 {
@@ -38,9 +35,6 @@ final class ArticleCollectionController extends AbstractController
                 $request->isXmlHttpRequest()
             )
         );
-        if ('articles-by-article_series' === $request->attributes->get('_route')) {
-            $articleCollection->sortBySeries();
-        }
 
         return $this->render('Article/Collection/default.html.twig', ['articleCollection' => $articleCollection]);
     }
