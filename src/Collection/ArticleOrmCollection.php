@@ -6,11 +6,8 @@ namespace App\Collection;
 use App\Collection\ConditionOrm\ConditionOrmInterface;
 use App\Collection\Model\ArticleCollectionModel;
 use App\Entity\Article;
-use App\Entity\ArticleFormat;
-use App\Entity\ArticlePrice;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Join;
 
 class ArticleOrmCollection implements ArticleCollectionInterface
 {
