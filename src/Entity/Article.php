@@ -2,10 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
-use App\Entity\TimestampableTrait;
 use Doctrine\ORM\PersistentCollection;
 
 /**
@@ -18,13 +15,6 @@ class Article extends BaseEntity
 {
     use TimestampableTrait;
 
-    public function __construct(
-    )
-    {
-        $this->authors = new ArrayCollection();
-        $this->cloudFiles = new ArrayCollection();
-        $this->prices = new ArrayCollection();
-    }
 
     /**
      * @ORM\Column(name="slug", type="string", length=250)
@@ -75,6 +65,11 @@ class Article extends BaseEntity
     private PersistentCollection $cloudFiles;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ArticleFormat", mappedBy="article")
+     */
+    private PersistentCollection $formats;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ArticlePrice", mappedBy="article")
      * @ORM\OrderBy({"activeFrom" = "DESC"})
      */
@@ -118,7 +113,7 @@ class Article extends BaseEntity
         return $this->title;
     }
 
-    public function getPrice(): ArticlePrice
+    public function getPrice(): ?ArticlePrice
     {
         /** @var ArticlePrice $price */
         foreach ($this->prices as $price){
@@ -126,7 +121,7 @@ class Article extends BaseEntity
                 return $price;
             }
         }
-        throw new \RuntimeException('No price found!');
+        return null;
     }
 
 }
