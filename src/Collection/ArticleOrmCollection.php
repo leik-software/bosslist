@@ -6,11 +6,8 @@ namespace App\Collection;
 use App\Collection\ConditionOrm\ConditionOrmInterface;
 use App\Collection\Model\ArticleCollectionModel;
 use App\Entity\Article;
-use App\Entity\ArticleFormat;
-use App\Entity\ArticlePrice;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Join;
 
 class ArticleOrmCollection implements ArticleCollectionInterface
 {
@@ -27,8 +24,10 @@ class ArticleOrmCollection implements ArticleCollectionInterface
         $qb
             ->select('count(a.id)')
             ->from(Article::class, 'a')
-            ->join(ArticleFormat::class, 'af',Join::WITH, 'af.article = a')
-            ->join(ArticlePrice::class, 'ap', Join::WITH, 'ap.article = a')
+            ->join('a.formats', 'af')
+            ->join('a.prices', 'ap')
+            ->join('a.authors', 'au')
+            ->join('a.cloudFiles', 'cf')
             ->where('af.statuscode = :statuscode')
             ->andWhere('ap.countryCode = :countryCode')
             ->setParameter('statuscode', 1, ParameterType::INTEGER)
@@ -38,6 +37,7 @@ class ArticleOrmCollection implements ArticleCollectionInterface
 
         $qb
             ->select('a')
+            ->addSelect('ap, au, af, cf')
             ->groupBy('a.id')
             ->orderBy('a.title', 'asc')
             ->setFirstResult($request->getLimit() * ($request->getPage() - 1))
