@@ -27,8 +27,8 @@ class ArticleOrmCollection implements ArticleCollectionInterface
         $qb
             ->select('count(a.id)')
             ->from(Article::class, 'a')
-            ->join(ArticleFormat::class, 'af',Join::WITH, 'af.article = a')
-            ->join(ArticlePrice::class, 'ap', Join::WITH, 'ap.article = a')
+            ->join('a.formats', 'af')
+            ->join('a.prices', 'ap')
             ->where('af.statuscode = :statuscode')
             ->andWhere('ap.countryCode = :countryCode')
             ->setParameter('statuscode', 1, ParameterType::INTEGER)
