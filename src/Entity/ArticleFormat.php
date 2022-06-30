@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
-use App\Entity\TimestampableTrait;
 
 /**
  * @ORM\Table(name="article_format",
@@ -121,7 +120,7 @@ class ArticleFormat extends BaseEntity
     /**
      * @ORM\Column(name="delivery_date", type="date", nullable=true)
      */
-    protected \DateTime $deliveryDate;
+    protected DateTime $deliveryDate;
 
     /**
      * @ORM\Column(name="fsk", type="integer", nullable=true)

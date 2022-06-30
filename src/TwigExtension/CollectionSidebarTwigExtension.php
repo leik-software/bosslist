@@ -6,11 +6,14 @@ namespace App\TwigExtension;
 
 use Assert\Assertion;
 use Doctrine\DBAL\Connection;
+use PDO;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Throwable;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use function is_array;
 
 final class CollectionSidebarTwigExtension extends AbstractExtension
 {
@@ -36,7 +39,7 @@ final class CollectionSidebarTwigExtension extends AbstractExtension
         try {
             Assertion::isInstanceOf($this->request, Request::class);
             Assertion::same($this->request->attributes->get('collection-type'), 'category');
-            Assertion::true(\is_array($this->request->attributes->get('slug-row')));
+            Assertion::true(is_array($this->request->attributes->get('slug-row')));
             $currentCat = $this->request->attributes->get('slug-row');
             Assertion::keyExists($currentCat, 'id');
             $childCategories = $this->connection->executeQuery(
@@ -50,12 +53,12 @@ final class CollectionSidebarTwigExtension extends AbstractExtension
                         ORDER BY category.lft
                     SQL,
                 [$currentCat['id']],
-                [\PDO::PARAM_INT]
+                [PDO::PARAM_INT]
             )->fetchAllAssociative();
             Assertion::notEmpty($childCategories);
 
             return $this->twig->render('/Article/Collection/SideBar/_child-categories.html.twig', ['categories' => $childCategories]);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return '';
         }
     }

@@ -117,6 +117,9 @@ class Article extends BaseEntity
     {
         /** @var ArticlePrice $price */
         foreach ($this->prices as $price){
+            if(strtoupper($price->getCountryCode()) !== 'DE'){
+                continue;
+            }
             if($price->getActiveFrom()->getTimestamp() <= (new \DateTimeImmutable())->getTimestamp()){
                 return $price;
             }

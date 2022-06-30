@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\CreatedAtTrait;
 
 /**
  * @ORM\Table(name="article_file_cloud")
