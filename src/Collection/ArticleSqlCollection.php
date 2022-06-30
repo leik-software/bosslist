@@ -43,6 +43,16 @@ final class ArticleSqlCollection implements ArticleCollectionInterface
 
         }
 
+        $articleListSlug = $this->shopRequest->getRequest()->attributes->get('article_list-slug');
+        $articleListCondition = '';
+        if($articleListSlug){
+            $articleListCondition = <<<SQL
+                INNER JOIN article2list ON article2list.article_id = a.id
+                INNER JOIN article_list ON article_list.id = article2list.article_list_id AND article_list.slug = '$articleListSlug'
+                SQL;
+
+        }
+
         $authorSlug = $this->shopRequest->getRequest()->attributes->get('author-slug');
         $authorCondition = '';
         if($tagSlug){
@@ -70,6 +80,7 @@ final class ArticleSqlCollection implements ArticleCollectionInterface
             INNER JOIN article_file_cloud AS afc ON afc.article_id = a.id
             $categoryCondition
             $tagCondition
+            $articleListCondition
             WHERE article_format.statuscode >= :statuscode
             $authorCondition
             GROUP BY a.id
