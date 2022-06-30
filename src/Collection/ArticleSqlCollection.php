@@ -45,7 +45,7 @@ final class ArticleSqlCollection implements ArticleCollectionInterface
 
         $authorSlug = $this->shopRequest->getRequest()->attributes->get('author-slug');
         $authorCondition = '';
-        if($tagSlug){
+        if($authorSlug){
             $authorCondition = sprintf('AND author.slug = "%s"', $authorSlug);
         }
 

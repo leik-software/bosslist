@@ -23,3 +23,5 @@
 /.env.test
 /.php-cs-fixer.cache
 /composer.phar
+/Performance.xlsx
+/~$Performance.xlsx
