@@ -50,6 +50,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {#% if loop.first %}
+                                            {{dump(article)}}
+                                        {% endif #}
                                     {% endfor %}
                                     <div class="col col-12 no-more text-center" style="display: none">Alle Artikel wurden geladen</div>
                                     <div class="col col-12 text-center article-spinner">
