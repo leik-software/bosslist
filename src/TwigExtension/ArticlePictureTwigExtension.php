@@ -7,6 +7,7 @@ namespace App\TwigExtension;
 use App\Collection\Model\HasCoverImageInterface;
 use App\Helper\BlurHashHelper;
 use Assert\Assertion;
+use Throwable;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -62,7 +63,7 @@ final class ArticlePictureTwigExtension extends AbstractExtension
             $stream = ob_get_clean();
 
             return sprintf('data:image/jpg;base64,%s', base64_encode($stream));
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return $this->getBase64Nopic();
         }
     }

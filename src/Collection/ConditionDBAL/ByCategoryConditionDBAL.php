@@ -26,7 +26,7 @@ final class ByCategoryConditionDBAL implements ArticleConditionDBALInterface
                 SELECT node.id
                 FROM category AS node, category AS parent
                 WHERE node.lft BETWEEN parent.lft AND parent.rgt
-                AND parent.slug = '{$slug}'
+                AND parent.slug = '$slug'
             SQL;
 
         $queryBuilder

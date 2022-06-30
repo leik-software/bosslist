@@ -29,7 +29,7 @@ final class ShopRequest
 
     public function hasSession(): bool
     {
-        return $this->session instanceof SessionInterface;
+        return true;
     }
 
     public function getSession(): SessionInterface

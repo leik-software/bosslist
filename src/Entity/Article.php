@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
-use App\Entity\TimestampableTrait;
 
 /**
  * @ORM\Table(name="article",

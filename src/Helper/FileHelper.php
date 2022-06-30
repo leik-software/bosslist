@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use Nette\Utils\FileSystem;
 use Ouzo\Utilities\Files;
+use function count;
 
 final class FileHelper
 {
@@ -58,7 +59,7 @@ final class FileHelper
     public static function getMimeType(string $filename): string
     {
         $idx = explode('.', $filename);
-        $count_explode = \count($idx);
+        $count_explode = count($idx);
         $idx = strtolower($idx[$count_explode - 1]);
 
         $mimet = [
