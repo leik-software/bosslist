@@ -38,9 +38,6 @@ final class ArticleCollectionController extends AbstractController
                 $request->isXmlHttpRequest()
             )
         );
-        if ('articles-by-article_series' === $request->attributes->get('_route')) {
-            $articleCollection->sortBySeries();
-        }
 
         return $this->render('Article/Collection/default.html.twig', ['articleCollection' => $articleCollection]);
     }

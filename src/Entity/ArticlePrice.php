@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
-use App\Entity\TimestampableTrait;
 
 /**
  * @ORM\Table(name="article_price", indexes={@ORM\Index(name="search_idx", columns={"article_id", "active_from", "price", "striked_price", "extern_id", "country_code", "currency"})})

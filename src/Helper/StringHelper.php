@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Helper;
 
 use Nette\Utils\Strings;
+use function strlen;
 
 final class StringHelper
 {
@@ -48,7 +49,7 @@ final class StringHelper
     public static function human_filesize(string $bytes, ?int $decimals = 2): string
     {
         $sz = ['Byte', 'KB', 'MB', 'GB', 'TB', 'PB'];
-        $factor = (int) floor((\strlen($bytes) - 1) / 3);
+        $factor = (int) floor((strlen($bytes) - 1) / 3);
 
         return sprintf("%.{$decimals}f", $bytes / (1024 ** $factor)).$sz[$factor];
     }

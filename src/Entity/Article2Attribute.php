@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
 
 /**
  * @ORM\Table(name="article2attribute", indexes={@ORM\Index(columns={"label", "article_id", "attribute_id"})}, uniqueConstraints={@ORM\UniqueConstraint(name="unique_entry", columns={"article_id", "attribute_id"})})

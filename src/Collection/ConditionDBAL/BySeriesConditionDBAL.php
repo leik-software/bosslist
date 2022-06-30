@@ -6,6 +6,7 @@ namespace App\Collection\ConditionDBAL;
 
 use App\ShopRequest;
 use Doctrine\DBAL\Query\QueryBuilder;
+use PDO;
 
 final class BySeriesConditionDBAL implements ArticleConditionDBALInterface
 {
@@ -26,7 +27,7 @@ final class BySeriesConditionDBAL implements ArticleConditionDBALInterface
 
         $queryBuilder
             ->innerJoin('a', 'article2series', 'article2series', 'article2series.article_id = a.id AND article2series.article_series_id = :series')
-            ->setParameter('series', $series['id'], \PDO::PARAM_INT)
+            ->setParameter('series', $series['id'], PDO::PARAM_INT)
             ->orderBy('article2series.part', 'asc')
         ;
     }
