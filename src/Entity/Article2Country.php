@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
 
 /**
  * @ORM\Table(name="article2country", indexes={@ORM\Index(name="search_idx", columns={"article_id", "country_code"})})

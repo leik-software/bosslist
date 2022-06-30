@@ -4,6 +4,8 @@ namespace App\Helper;
 
 use Assert\Assertion;
 use Doctrine\DBAL\Connection;
+use PDO;
+use Throwable;
 
 final class NestedTreeHelper
 {
@@ -26,7 +28,7 @@ final class NestedTreeHelper
             $id = (int)$connection->lastInsertId();
             $connection->commit();
             return $id;
-        }catch (\Throwable $exception){
+        }catch (Throwable $exception){
             if($connection->isTransactionActive()){
                 $connection->rollBack();
             }
@@ -39,17 +41,17 @@ final class NestedTreeHelper
         $connection->executeQuery(
             "DELETE FROM ".$tableName." WHERE lft BETWEEN ? AND ?;",
             [$left, $right],
-            [\PDO::PARAM_INT,\PDO::PARAM_INT]
+            [PDO::PARAM_INT, PDO::PARAM_INT]
         );
         $connection->executeQuery(
             "UPDATE ".$tableName." SET lft=lft-ROUND((?-?+1)) WHERE lft>?;",
             [$right, $left, $right],
-            [\PDO::PARAM_INT, \PDO::PARAM_INT, \PDO::PARAM_INT]
+            [PDO::PARAM_INT, PDO::PARAM_INT, PDO::PARAM_INT]
         );
         $connection->executeQuery(
             "UPDATE ".$tableName." SET rgt=rgt-ROUND((?-?+1)) WHERE rgt>?;",
             [$right, $left, $right],
-            [\PDO::PARAM_INT, \PDO::PARAM_INT, \PDO::PARAM_INT]
+            [PDO::PARAM_INT, PDO::PARAM_INT, PDO::PARAM_INT]
         );
     }
 
