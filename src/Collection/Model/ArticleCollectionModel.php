@@ -8,18 +8,14 @@ use Pagination;
 
 final class ArticleCollectionModel
 {
-    /** @var ArticleModel[] */
-    private array $articles = [];
+
+    private array $articles;
     private Pagination $pagination;
 
-    public function __construct(Pagination $pagination)
+    public function __construct(Pagination $pagination, array $articles)
     {
         $this->pagination = $pagination;
-    }
-
-    public function addArticle(ArticleModel $articleModel): void
-    {
-        $this->articles[$articleModel->getArticleId()] = $articleModel;
+        $this->articles = $articles;
     }
 
     public function getPagination(): Pagination
@@ -27,24 +23,10 @@ final class ArticleCollectionModel
         return $this->pagination;
     }
 
-    public function getArticleIds(): array
-    {
-        return array_keys($this->articles);
-    }
-
-    public function getArticleById(int $articleId): ArticleModel
-    {
-        return $this->articles[$articleId];
-    }
-
     public function getArticles(): array
     {
         return $this->articles;
     }
 
-    public function getNotIndexedArticles(): array
-    {
-        return array_values($this->articles);
-    }
 
 }

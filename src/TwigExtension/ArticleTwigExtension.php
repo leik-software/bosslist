@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\TwigExtension;
 
-use App\Collection\Model\HasCoverImageInterface;
 use App\Helper\BlurHashHelper;
+use App\Helper\StringHelper;
 use Assert\Assertion;
+use RtLopez\Decimal;
 use Throwable;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-final class ArticlePictureTwigExtension extends AbstractExtension
+final class ArticleTwigExtension extends AbstractExtension
 {
     public const RESOLUTION_NAME_COVER_DETAIL = 'image_detail';
     public const RESOLUTION_NAME_THUMB = 'image_thumb';
@@ -26,44 +27,55 @@ final class ArticlePictureTwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('articleThumb', [$this, 'articleThumb']),
-            new TwigFunction('articleCover', [$this, 'articleCover']),
-            new TwigFunction('articleIcon', [$this, 'articleIcon']),
             new TwigFunction('blurHashImage', [$this, 'blurHashImage']),
+            new TwigFunction('getAuthorString', [$this, 'getAuthorString']),
+            new TwigFunction('formatPrice', [$this, 'formatPrice']),
+            new TwigFunction('getFirstAuthorSlug', [$this, 'getFirstAuthorSlug']),
         ];
     }
 
-    public function articleThumb(HasCoverImageInterface $articleModel): string
+    public function getFirstAuthorSlug(array $article): string
     {
-        return $articleModel->getThumbUrl() ?: $this->getBase64Nopic();
+        $authors = explode(';', $article['authors']);
+        return explode('|',$authors[0])[1];
     }
 
-    public function articleCover(HasCoverImageInterface $articleModel): string
+    public function formatPrice(string $price): string
     {
-        return $articleModel->getDetailUrl() ?: $this->getBase64Nopic();
+        return sprintf('%s €', Decimal::create($price)->format(2,',','.'));
     }
 
-    public function articleIcon(HasCoverImageInterface $articleModel): string
+    public function getAuthorString(array $article): string
     {
-        return $articleModel->getIconUrl() ?: $this->getBase64Nopic();
+        if(StringHelper::contains($article['authors'], ';')){
+            $authors = explode(';', $article['authors']);
+            return sprintf('%s und weitere', explode(',',$authors[0])[0]);
+        }
+        return explode('|',$article['authors'])[0];
     }
 
-    public function blurHashImage(HasCoverImageInterface $articleModel, string $resolution): string
+    public function articleThumb(array $article): string
+    {
+        return !empty($article['aws_url_thumb']) ? $article['aws_url_thumb'] : $this->getBase64Nopic();
+    }
+
+    public function blurHashImage(array $article, string $resolution): string
     {
         try {
-            $blurHash = $articleModel->getBlurHash();
+            $blurHash = $article['blur_hash'];
             Assertion::notEmpty($blurHash);
             $resolutions = self::RESOLUTIONS;
             Assertion::keyExists($resolutions, $resolution);
             ob_start();
             BlurHashHelper::decodeHash(
-                $articleModel->getBlurHash(),
+                $article['blur_hash'],
                 20,
                 26
             );
             $stream = ob_get_clean();
 
             return sprintf('data:image/jpg;base64,%s', base64_encode($stream));
-        } catch (Throwable $exception) {
+        } catch (Throwable) {
             return $this->getBase64Nopic();
         }
     }

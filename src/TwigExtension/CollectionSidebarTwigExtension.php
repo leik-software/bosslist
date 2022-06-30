@@ -59,7 +59,7 @@ final class CollectionSidebarTwigExtension extends AbstractExtension
 
             return $this->twig->render('/Article/Collection/SideBar/_child-categories.html.twig', ['categories' => $childCategories]);
         } catch (Throwable $exception) {
-            return '';
+            return $exception->getMessage();
         }
     }
 }
