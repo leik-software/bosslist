@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,28 +31,28 @@ class ArticleList extends BaseEntity
     /**
      * @ORM\Column(name="new_releases_from", type="date", nullable=true)
      */
-    private ?\DateTime $newReleasesFrom;
+    private ?DateTime $newReleasesFrom;
 
     /**
      * @ORM\Column(name="new_releases_to", type="date", nullable=true)
      */
-    private ?\DateTime $newReleasesTo;
+    private ?DateTime $newReleasesTo;
 
 
 
     public function __construct(string $label, string $slug)
     {
         $this->label = $label;
-        $this->slug = $slug;
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
+        $this->setSlug($slug);
+        $this->created_at = new DateTime();
+        $this->updated_at = new DateTime();
     }
 
     public function update(string $label, string $slug): void
     {
         $this->label = $label;
         $this->slug = $slug;
-        $this->updated_at = new \DateTime();
+        $this->updated_at = new DateTime();
     }
 
     public function getLabel(): string

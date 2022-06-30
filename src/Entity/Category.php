@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseEntity;
 
 /**
  * @ORM\Table(name="category", indexes={@ORM\Index(name="search_idx", columns={"slug"})})

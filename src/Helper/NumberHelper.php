@@ -2,13 +2,15 @@
 
 namespace App\Helper;
 
+use function strlen;
+
 final class NumberHelper
 {
     public static function formatPrice($price, int $minDecimals = 2): string
     {
         $price = self::tofloat($price);
         $split = explode('.', (string) $price);
-        $minDecimals = (isset($split[1]) && \strlen($split[1]) > $minDecimals) ? \strlen($split[1]) : $minDecimals;
+        $minDecimals = (isset($split[1]) && strlen($split[1]) > $minDecimals) ? strlen($split[1]) : $minDecimals;
         if($minDecimals === 0){
             return $split[0];
         }
@@ -40,6 +42,6 @@ final class NumberHelper
         }
 
         return (float) (preg_replace('/\D/', '', substr($num, 0, $sep)).'.'.
-            preg_replace('/\D/', '', substr($num, $sep + 1, \strlen($num))));
+            preg_replace('/\D/', '', substr($num, $sep + 1, strlen($num))));
     }
 }

@@ -9,6 +9,8 @@ use App\Collection\ListDecoratorDBAL\ArticleListDecoratorInterface;
 use App\Collection\Model\ArticleCollectionModel;
 use App\Collection\Model\ArticleModel;
 use Doctrine\DBAL\Connection;
+use Pagination;
+use PDO;
 
 final class ArticleDBALCollection implements ArticleCollectionInterface
 {
@@ -34,7 +36,7 @@ final class ArticleDBALCollection implements ArticleCollectionInterface
             ->setMaxResults($request->getLimit())
             ->orderBy('a.title', 'ASC')
             ->andWhere('article_format.statuscode >= :statuscode')
-            ->setParameter('statuscode', 1, \PDO::PARAM_INT)
+            ->setParameter('statuscode', 1, PDO::PARAM_INT)
         ;
 
         foreach ($this->conditions as $condition) {
@@ -43,7 +45,7 @@ final class ArticleDBALCollection implements ArticleCollectionInterface
 
         $results = $queryBuilder->executeQuery()->fetchAllAssociative();
         $countRows = (int) $this->connection->executeQuery('SELECT FOUND_ROWS()')->fetchOne();
-        $articleCollection = new ArticleCollectionModel(new \Pagination($request->getLimit(), $countRows, $request->getPage()));
+        $articleCollection = new ArticleCollectionModel(new Pagination($request->getLimit(), $countRows, $request->getPage()));
 
         foreach ($results as $result) {
             $articleCollection->addArticle(ArticleModel::fromDbRow($result));
